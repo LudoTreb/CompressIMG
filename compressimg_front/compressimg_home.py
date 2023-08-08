@@ -1,5 +1,5 @@
 import streamlit as st
-from tools.tools_img import manipulate_img
+from tools.tools_img import manipulate_img, formated_name_img
 
 
 # titre du site
@@ -63,34 +63,38 @@ user_data_input = {
 
 # h1 Step 3
 st.write("# 🗜️ Step 3")
-st.write("Compress & download your compressed image ")
 # 3 colones
 col_4, col_5, col_6 = st.columns(3)
 
 # - Compress avec widget : st.button("Compress")
 with col_4:
+    st.write("Oginal data image")
+    # TODO ajouter une preview de limage originale + différent info
+
+with col_5:
+    st.write("Preview data compressed image")
+    # TODO ajouter une preview de l'image compressée + différentes info size, name... si possible une evalution du poid de l'image
+
+
+# - Une fois la compression terminée, le bouton Download apparait  avec widget : st.download_button()
+with col_6:
+    st.write("Compress & download")
     compress_btn = st.button("Compress", use_container_width=True)
+    is_button_true = True
+
     if uploaded_file:
         if compress_btn:
             img_compressed = manipulate_img(uploaded_file, user_data_input)
-            st.image(img_compressed)
 
-# - Une fois la compression terminée, le bouton Download apparait  avec widget : st.download_button()
+            is_button_true = False
 
-with col_5:
-    is_button_true = True
-
-    if compress_btn:
-        is_button_true = False
-    else:
-        is_button_true = True
-
-    download_btn = st.button(
-        "Download", disabled=is_button_true, use_container_width=True
-    )
-
-
-# - Une fois le download terminé, un emoji pouce apparait.
-with col_6:
-    if download_btn:
-        st.write("👍")
+            # FIXME Probleme de nom fichier quand on choisit PNG ou WEBP et que le fichier d'origine est en png. il met "streamlit_download" au lieu du nom rentré ?
+            # FIXME Faire apparaitre le bouton dowload mais pas cliquable. Devient cliquable si compress est cliqué.
+            download_btn = st.download_button(
+                "Download your image",
+                data=img_compressed,
+                file_name=formated_name_img(user_data_input),
+                mime=f"image/{user_data_input['img_converted_extension'].lower()}",
+                use_container_width=True,
+                disabled=is_button_true,
+            )
