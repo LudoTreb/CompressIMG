@@ -24,14 +24,18 @@ def formated_name_img(data_input):
     """
 
     name_img = data_input["img_converted_name"].lower()
+    extension_img = data_input["img_converted_extension"]
 
-    if data_input["img_converted_extension"] == "JPEG":
+    if extension_img == "JPEG":
         extention = "jpg"
 
         extension_img = extention
         ok_name_img = f"{name_img}.{extension_img}"
 
-        return ok_name_img
+    else:
+        ok_name_img = f"{name_img}.{extension_img.lower()}"
+
+    return ok_name_img
 
 
 def compress_img(img, data_input):
