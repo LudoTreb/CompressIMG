@@ -80,21 +80,21 @@ with col_5:
 with col_6:
     st.write("Compress & download")
     compress_btn = st.button("Compress", use_container_width=True)
+
     is_button_true = True
+    img_compressed = uploaded_file
 
     if uploaded_file:
         if compress_btn:
             img_compressed = manipulate_img(uploaded_file, user_data_input)
-
             is_button_true = False
 
-            # FIXME Probleme de nom fichier quand on choisit PNG ou WEBP et que le fichier d'origine est en png. il met "streamlit_download" au lieu du nom rentré ?
             # FIXME Faire apparaitre le bouton dowload mais pas cliquable. Devient cliquable si compress est cliqué.
-            download_btn = st.download_button(
-                "Download your image",
-                data=img_compressed,
-                file_name=formated_name_img(user_data_input),
-                mime=f"image/{user_data_input['img_converted_extension'].lower()}",
-                use_container_width=True,
-                disabled=is_button_true,
-            )
+        st.download_button(
+            "Download your image",
+            data=img_compressed,
+            file_name=formated_name_img(user_data_input),
+            mime=f"image/{user_data_input['img_converted_extension'].lower()}",
+            use_container_width=True,
+            disabled=is_button_true,
+        )
