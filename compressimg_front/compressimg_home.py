@@ -62,18 +62,19 @@ user_data_input = {
 
 with col_2:
     st.write("#### Preview")
-
-    img_preview = open_img(uploaded_file)
-    img_preview = scale_img(img_preview, user_data_input)
-
     if uploaded_file:
-        st.image(img_preview)
+        img_preview = open_img(uploaded_file)
+        img_preview = scale_img(img_preview, user_data_input)
+
+        if uploaded_file:
+            st.image(img_preview)
 
 # - Extension avec widget : st.selectbox("your extension", ("PNG", "JPG", "WEBP"),)
 with col_3:
     st.write("#### Data")
-    data_img = f"**name**: {name_img}  \n**format**: {extention_img}  \n**width**: {img_preview.size[0]}px  \n**height**: {img_preview.size[1]}px  \n**mode**: {img_preview.mode}"
-    st.write(data_img)
+    if uploaded_file:
+        data_img = f"**name**: {name_img}  \n**format**: {extention_img}  \n**width**: {img_preview.size[0]}px  \n**height**: {img_preview.size[1]}px  \n**mode**: {img_preview.mode}"
+        st.write(data_img)
 
 st.write("---")
 
