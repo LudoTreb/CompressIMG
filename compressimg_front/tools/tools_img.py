@@ -28,7 +28,17 @@ def formated_name_img(data_input):
     return ok_name_img
 
 
-def quality_im(data_input):
+def quality_img(data_input):
+    """Convert from dictionary the input string from the user into an integer.
+     This integer is the reduce quality factor.
+
+    Args:
+        data_input (dict):  all data given by the user
+
+    Returns:
+        int: This integer is the reduce quality factor
+    """
+
     quality_correspondence = {
         "Poor": 10,
         "Low": 30,
@@ -57,7 +67,7 @@ def compress_img(img, data_input):
     if img.mode != "RGB":
         img = img.convert("RGB")
 
-    quality = quality_im(data_input)
+    quality = quality_img(data_input)
 
     output_buffer = io.BytesIO()
 
