@@ -1,11 +1,11 @@
 import streamlit as st
-from tools.tools_img import manipulate_img, formated_name_img
+from tools.tools_img import manipulate_img, formated_name_img, scale_img
 
 with open("style.css") as style:
     st.markdown(f"<style>{style.read}</style>", unsafe_allow_html=True)
 
 # titre du site
-st.title("compressIMG")
+st.title("CompressIMG")
 
 # descriptif du site
 st.write(
@@ -15,45 +15,36 @@ st.write(
 )
 
 # h1 Step 1
-st.write("# 📂 Step 1")
+st.write("# 📂 Choose an image  file")
 
 # widget drag & drop
-uploaded_file = st.file_uploader(
-    "Choose an image  file", ["PNG", "JPG", "WEBP"]
-)
+uploaded_file = st.file_uploader("", ["PNG", "JPG", "WEBP"])
 
 st.write("---")
 
 # h1 Step 2
-st.write("# 🛠️ Step 2")
-st.write("Custom your export file")
+st.write("# 🛠️ Custom your export file")
+
+st.write("")
 
 # 3 colones
-col_1, col_2, col_3 = st.columns(3)
-# - Name avec widget : st.text_input("You can rename your image compress", "name_file.png")
+col_1, col_2, col_3 = st.columns(3, gap="medium")
+
 with col_1:
-    st.write("### Name")
-    name_img = st.text_input("You can rename your image compress", "name_file")
+    st.write("#### Parameters")
+    name_img = st.text_input("You can rename it:", "name_file")
 
-# - Quality & resize avec widget : st.slider('Resize', 0, 100, (55))
-with col_2:
-    st.write("### Quality & Resize")
-
-    resize_factor = st.slider('Resize', 0, 100, (55))
-    quality_img = st.select_slider(
-        "Quality of your image",
-        options=["Poor", "Low", "Medium", "Good", "High"],
-    )
-
-# - Extension avec widget : st.selectbox("your extension", ("PNG", "JPG", "WEBP"),)
-with col_3:
-    st.write("### Extension")
     extention_img = st.selectbox(
-        "Your extension",
+        "Convert in:",
         ("PNG", "JPEG", "WEBP"),
     )
 
-st.write("---")
+    resize_factor = st.slider('Resize', 0, 100, (50))
+    quality_img = st.select_slider(
+        "Quality",
+        options=["Poor", "Low", "Medium", "Good", "High"],
+        value="Medium",
+    )
 
 user_data_input = {
     "img_converted_name": name_img,
@@ -63,40 +54,39 @@ user_data_input = {
 }
 
 
+with col_2:
+    st.write("#### Preview")
+
+
+# - Extension avec widget : st.selectbox("your extension", ("PNG", "JPG", "WEBP"),)
+with col_3:
+    st.write("#### Data")
+
+st.write("---")
+
+
 # h1 Step 3
-st.write("# 🗜️ Step 3")
-# 3 colones
-col_4, col_5, col_6 = st.columns(3)
+st.write("# 🗜️ Compress & download")
 
 # - Compress avec widget : st.button("Compress")
-with col_4:
-    st.write("Oginal data image")
-    # TODO ajouter une preview de limage originale + différent info
-
-with col_5:
-    st.write("Preview data compressed image")
-    # TODO ajouter une preview de l'image compressée + différentes info size, name... si possible une evalution du poid de l'image
-
 
 # - Une fois la compression terminée, le bouton Download apparait  avec widget : st.download_button()
-with col_6:
-    st.write("Compress & download")
-    compress_btn = st.button("Compress", use_container_width=True)
 
-    is_button_true = True
-    img_compressed = uploaded_file
+compress_btn = st.button("Compress", use_container_width=True)
 
-    if uploaded_file:
-        if compress_btn:
-            img_compressed = manipulate_img(uploaded_file, user_data_input)
-            is_button_true = False
+is_button_true = True
+img_compressed = uploaded_file
 
-            # FIXME Faire apparaitre le bouton dowload mais pas cliquable. Devient cliquable si compress est cliqué.
-        st.download_button(
-            "Download your image",
-            data=img_compressed,
-            file_name=formated_name_img(user_data_input),
-            mime=f"image/{user_data_input['img_converted_extension'].lower()}",
-            use_container_width=True,
-            disabled=is_button_true,
-        )
+if uploaded_file:
+    if compress_btn:
+        img_compressed = manipulate_img(uploaded_file, user_data_input)
+        is_button_true = False
+
+    st.download_button(
+        "Download your image",
+        data=img_compressed,
+        file_name=formated_name_img(user_data_input),
+        mime=f"image/{user_data_input['img_converted_extension'].lower()}",
+        use_container_width=True,
+        disabled=is_button_true,
+    )
