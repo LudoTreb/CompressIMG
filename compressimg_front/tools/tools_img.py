@@ -1,15 +1,5 @@
-import streamlit as st
 from PIL import Image
 import io
-
-# données pour faire des essais
-mon_image = "flower.png"
-user_data_input = {
-    "img_converted_name": "flower_compress",
-    "img_converted_extension": "JPEG",
-    "img_converted_scale": 50,
-    "img_converted_quality": "Medium",
-}
 
 
 def formated_name_img(data_input):
@@ -38,6 +28,20 @@ def formated_name_img(data_input):
     return ok_name_img
 
 
+def quality_im(data_input):
+    quality_correspondence = {
+        "Poor": 10,
+        "Low": 30,
+        "Medium": 50,
+        "Good": 70,
+        "High": 90,
+    }
+
+    quality = quality_correspondence.get(data_input["img_converted_quality"])
+
+    return quality
+
+
 def compress_img(img, data_input):
     """Save an image with some parameter
     like quality to reduce the weight.
@@ -50,18 +54,10 @@ def compress_img(img, data_input):
         class 'PIL.Image.Image': an compressed image
     """
 
-    quality_correspondence = {
-        "Poor": 10,
-        "Low": 30,
-        "Medium": 50,
-        "Good": 70,
-        "High": 90,
-    }
-
     if img.mode != "RGB":
         img = img.convert("RGB")
 
-    quality = quality_correspondence.get(data_input["img_converted_quality"])
+    quality = quality_im(data_input)
 
     output_buffer = io.BytesIO()
 
@@ -96,6 +92,20 @@ def scale_img(img, data_input):
     return resized_img
 
 
+def open_img(img_path):
+    """open an image from is location path.
+
+    Args:
+        img_path (str): the location path of the image.
+
+    Returns:
+         class 'PIL.Image.Image': the image uploaded.
+    """
+    img_uploaded = Image.open(img_path)
+
+    return img_uploaded
+
+
 def manipulate_img(img_path, data_input):
     """The function use all the other to compress an image.
     Reduce the quality, resize, rename, convert & save.
@@ -108,7 +118,7 @@ def manipulate_img(img_path, data_input):
         class 'PIL.Image.Image': a compressed image
     """
 
-    img_uploaded = Image.open(img_path)
+    img_uploaded = open_img(img_path)
 
     resized_img = scale_img(img_uploaded, data_input)
 
