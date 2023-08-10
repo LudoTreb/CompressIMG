@@ -1,6 +1,8 @@
 import streamlit as st
 from tools.tools_img import manipulate_img, formated_name_img
 
+with open("style.css") as style:
+    st.markdown(f"<style>{style.read}</style>", unsafe_allow_html=True)
 
 # titre du site
 st.title("compressIMG")
