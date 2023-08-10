@@ -1,5 +1,11 @@
 import streamlit as st
-from tools.tools_img import manipulate_img, formated_name_img, scale_img
+from tools.tools_img import (
+    manipulate_img,
+    formated_name_img,
+    scale_img,
+    open_img,
+    quality_img,
+)
 
 with open("style.css") as style:
     st.markdown(f"<style>{style.read}</style>", unsafe_allow_html=True)
@@ -57,10 +63,17 @@ user_data_input = {
 with col_2:
     st.write("#### Preview")
 
+    img_preview = open_img(uploaded_file)
+    img_preview = scale_img(img_preview, user_data_input)
+
+    if uploaded_file:
+        st.image(img_preview)
 
 # - Extension avec widget : st.selectbox("your extension", ("PNG", "JPG", "WEBP"),)
 with col_3:
     st.write("#### Data")
+    data_img = f"**name**: {name_img}  \n**format**: {extention_img}  \n**width**: {img_preview.size[0]}px  \n**height**: {img_preview.size[1]}px  \n**mode**: {img_preview.mode}"
+    st.write(data_img)
 
 st.write("---")
 
