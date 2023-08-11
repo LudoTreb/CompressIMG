@@ -8,12 +8,14 @@ from tools.tools_img import (
     compress_img,
 )
 
-with open("style.css") as style:
-    st.markdown(f"<style>{style.read}</style>", unsafe_allow_html=True)
 
 # titre du site
-st.title("CompressIMG")
-
+st.markdown(
+    "<h1 style='font-size: 5em;text-align: center; border: solid #301D43; border-radius: 10px;'>CompressIMG</h1>",
+    unsafe_allow_html=True,
+)
+st.write("")
+st.write("")
 # descriptif du site
 st.write(
     """Descriptif du site : Lorem ipsum dolor sit amet consectetur.
@@ -21,16 +23,18 @@ st.write(
     Orci dui arcu tortor tortor imperdiet tortor hendrerit scelerisque."""
 )
 
+st.write("---")
 # h1 Step 1
-st.write("# 📂 Choose an image  file")
+st.write("## 📂 Choose an image  file")
 
 # widget drag & drop
 uploaded_file = st.file_uploader("", ["PNG", "JPG", "WEBP"])
 
+
 st.write("---")
 
 # h1 Step 2
-st.write("# 🛠️ Custom your export file")
+st.write("## 🛠️ Custom your export file")
 
 st.write("")
 
@@ -38,7 +42,7 @@ st.write("")
 col_1, col_2, col_3 = st.columns(3, gap="medium")
 
 with col_1:
-    st.write("#### Parameters")
+    st.write("### Parameters")
     name_img = st.text_input("You can rename it:", "name_file")
 
     extention_img = st.selectbox(
@@ -46,7 +50,13 @@ with col_1:
         ("PNG", "JPEG", "WEBP"),
     )
 
-    resize_factor = st.slider('Resize', 0, 100, (50))
+    resize_factor = st.slider(
+        'Resize',
+        0,
+        100,
+        50,
+        key="slider",
+    )
     quality_img = st.select_slider(
         "Quality",
         options=["Poor", "Low", "Medium", "Good", "High"],
@@ -62,7 +72,7 @@ user_data_input = {
 
 
 with col_2:
-    st.write("#### Preview")
+    st.write("### Preview")
     if uploaded_file:
         img_preview = open_img(uploaded_file)
         img_preview = scale_img(img_preview, user_data_input)
@@ -74,7 +84,7 @@ with col_2:
 
 # - Extension avec widget : st.selectbox("your extension", ("PNG", "JPG", "WEBP"),)
 with col_3:
-    st.write("#### Data")
+    st.write("### Data")
     if uploaded_file:
         data_img = f"**name**: {name_img}  \n**format**: {extention_img}  \n**width**: {img_preview.size[0]} px  \n**height**: {img_preview.size[1]} px  \n**weight**: {img_preview_weight.getbuffer().nbytes/100} octets"
         st.write(data_img)
@@ -83,7 +93,7 @@ st.write("---")
 
 
 # h1 Step 3
-st.write("# 🗜️ Compress & download")
+st.write("## 🗜️ Compress & download")
 
 # - Compress avec widget : st.button("Compress")
 
