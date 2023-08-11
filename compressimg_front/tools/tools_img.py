@@ -78,7 +78,7 @@ def compress_img(img, data_input):
         quality=quality,
     )
 
-    return output_buffer.getvalue()
+    return output_buffer
 
 
 def scale_img(img, data_input):
@@ -134,4 +134,4 @@ def manipulate_img(img_path, data_input):
 
     img_compressed = compress_img(resized_img, data_input)
 
-    return img_compressed
+    return img_compressed.getvalue()
