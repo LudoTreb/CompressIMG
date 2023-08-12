@@ -61,7 +61,7 @@ def compress_img(img, data_input):
         data_input (dict): all data given by the user
 
     Returns:
-        class 'PIL.Image.Image': an compressed image
+        class '_io.BytesIO': output_buffer an compressed data byte
     """
 
     if img.mode != "RGB":

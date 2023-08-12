@@ -9,14 +9,14 @@ from tools.tools_img import (
 )
 
 
-# titre du site
 st.markdown(
     "<h1 style='font-size: 5em;text-align: center; border: solid #2B1B3D; border-radius: 10px;'>CompressIMG</h1>",
     unsafe_allow_html=True,
 )
+
 st.write("")
 st.write("")
-# descriptif du site
+
 st.write(
     """👋 Welcome to CompressIMG. Your image compression tool!
     CompressIMG is a user-friendly web application designed to
@@ -26,21 +26,20 @@ st.write(
 )
 
 st.write("---")
-# h1 Step 1
+
 st.write("## 📂 Choose an image  file")
 
-# widget drag & drop
+
 uploaded_file = st.file_uploader("", ["PNG", "JPG", "WEBP"])
 
 
 st.write("---")
 
-# h1 Step 2
 st.write("## 🛠️ Custom your export file")
 
 st.write("")
 
-# 3 colones
+
 col_1, col_2, col_3 = st.columns(3, gap="medium")
 
 with col_1:
@@ -65,6 +64,7 @@ with col_1:
         value="Medium",
     )
 
+# dictionary to store data input by user
 user_data_input = {
     "img_converted_name": name_img,
     "img_converted_extension": extention_img,
@@ -84,7 +84,7 @@ with col_2:
         if uploaded_file:
             st.image(img_preview)
 
-# - Extension avec widget : st.selectbox("your extension", ("PNG", "JPG", "WEBP"),)
+
 with col_3:
     st.write("### Data")
     if uploaded_file:
@@ -94,12 +94,7 @@ with col_3:
 st.write("---")
 
 
-# h1 Step 3
 st.write("## 🗜️ Compress & download")
-
-# - Compress avec widget : st.button("Compress")
-
-# - Une fois la compression terminée, le bouton Download apparait  avec widget : st.download_button()
 
 compress_btn = st.button("Compress", use_container_width=True)
 
