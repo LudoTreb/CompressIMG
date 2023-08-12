@@ -11,16 +11,18 @@ from tools.tools_img import (
 
 # titre du site
 st.markdown(
-    "<h1 style='font-size: 5em;text-align: center; border: solid #301D43; border-radius: 10px;'>CompressIMG</h1>",
+    "<h1 style='font-size: 5em;text-align: center; border: solid #2B1B3D; border-radius: 10px;'>CompressIMG</h1>",
     unsafe_allow_html=True,
 )
 st.write("")
 st.write("")
 # descriptif du site
 st.write(
-    """Descriptif du site : Lorem ipsum dolor sit amet consectetur.
-    Metus lorem pulvinar quis urna bibendum gravida blandit non sed.
-    Orci dui arcu tortor tortor imperdiet tortor hendrerit scelerisque."""
+    """👋 Welcome to CompressIMG. Your image compression tool!
+    CompressIMG is a user-friendly web application designed to
+    help you optimize and compress your images effortlessly.
+    In just three easy steps, you can have your image
+    ready for use on the web."""
 )
 
 st.write("---")
