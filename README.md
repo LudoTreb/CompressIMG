@@ -2,19 +2,20 @@
 
 CompressIMG is a Python web application built using the Streamlit framework and the Pillow library. It allows users to upload images and compress them while providing various customization options. This tool is useful for optimizing images for web use, reducing file sizes, and adjusting image quality.
 
-## Features
+## Features ⚙️
 
-- Upload an image from your device.
-- Customize compression settings:
+1 - Upload an image from your device.
+
+2 - Customize compression settings:
+  - Rename your image
   - Resize the image dimensions.
   - Adjust image quality.
   - Convert to different formats: PNG, JPEG, or WebP.
-- Download the compressed image.
+  
+3 - Download the compressed image.
 
-🚧 Still under contruction, but as soon on line 🏗️👷‍♂️😁
 
-## Installation
+## Use it ⬇️
+In your browser : http:
 
-### Requirements
-
-### Usage
+## 😊 Enjoy it ✨
