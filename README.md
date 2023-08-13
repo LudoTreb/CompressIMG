@@ -16,6 +16,6 @@ CompressIMG is a Python web application built using the Streamlit framework and 
 
 
 ## Use it ⬇️
-In your browser : http:
+In your browser : https://compressimg.streamlit.app/
 
 ## 😊 Enjoy it ✨
