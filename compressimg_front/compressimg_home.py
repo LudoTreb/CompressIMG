@@ -53,7 +53,7 @@ with col_1:
 
     resize_factor = st.slider(
         'Resize',
-        0,
+        1,
         100,
         50,
         key="slider",
