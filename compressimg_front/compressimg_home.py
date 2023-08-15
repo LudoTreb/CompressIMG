@@ -79,16 +79,22 @@ with col_2:
         img_preview = open_img(uploaded_file)
         img_preview = scale_img(img_preview, user_data_input)
 
-        img_preview_weight = compress_img(img_preview, user_data_input)
+        img_preview_weight_quality = compress_img(img_preview, user_data_input)
 
         if uploaded_file:
-            st.image(img_preview)
+            st.image(img_preview_weight_quality)
 
 
 with col_3:
     st.write("### Data")
     if uploaded_file:
-        data_img = f"**name**: {name_img}  \n**format**: {extention_img}  \n**width**: {img_preview.size[0]} px  \n**height**: {img_preview.size[1]} px  \n**weight**: {img_preview_weight.getbuffer().nbytes/100} octets"
+        data_img = (
+            f"**name**: {name_img}  \n"
+            f"**format**: {extention_img}  \n"
+            f"**width**: {img_preview.size[0]} px  \n"
+            f"**height**: {img_preview.size[1]} px  \n"
+            f"**weight**: {img_preview_weight_quality.getbuffer().nbytes/100} octets"
+        )
         st.write(data_img)
 
 st.write("---")
