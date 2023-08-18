@@ -6,6 +6,7 @@ from tools.tools_img import (
     open_img,
     quality_img,
     compress_img,
+    get_filename_without_extension,
 )
 
 
@@ -44,7 +45,12 @@ col_1, col_2, col_3 = st.columns(3, gap="medium")
 
 with col_1:
     st.write("### Parameters")
-    name_img = st.text_input("You can rename it:", "name_file")
+
+    img_name_default = "name_file"
+    if uploaded_file:
+        img_name_default = get_filename_without_extension(uploaded_file.name)
+
+    img_name_choosed = st.text_input("You can rename it:", img_name_default)
 
     extention_img = st.selectbox(
         "Convert in:",
@@ -66,7 +72,7 @@ with col_1:
 
 # dictionary to store data input by user
 user_data_input = {
-    "img_converted_name": name_img,
+    "img_converted_name": img_name_choosed,
     "img_converted_extension": extention_img,
     "img_converted_scale": resize_factor,
     "img_converted_quality": quality_img,
@@ -75,6 +81,7 @@ user_data_input = {
 
 with col_2:
     st.write("### Preview")
+
     if uploaded_file:
         img_preview = open_img(uploaded_file)
         img_preview = scale_img(img_preview, user_data_input)
@@ -87,9 +94,10 @@ with col_2:
 
 with col_3:
     st.write("### Data")
+
     if uploaded_file:
         data_img = (
-            f"**name**: {name_img}  \n"
+            f"**name**: {img_name_choosed}  \n"
             f"**format**: {extention_img}  \n"
             f"**width**: {img_preview.size[0]} px  \n"
             f"**height**: {img_preview.size[1]} px  \n"

@@ -1,5 +1,20 @@
 from PIL import Image
+from pathlib import Path
 import io
+
+
+def get_filename_without_extension(filename: str, suffix="_compress"):
+    """Get the name of the file without his extension and add an suffix.
+    By default suffix is '_compress' Example: flower.png -> flower_compress
+
+    Args:
+        filename (str): the filename complete
+        suffix (str, optional): Defaults to "_compress".
+
+    Returns:
+        str: concatenation of new filename and suffix
+    """
+    return Path(filename).stem + suffix
 
 
 def formated_name_img(data_input):
