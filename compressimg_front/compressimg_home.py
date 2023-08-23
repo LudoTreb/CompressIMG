@@ -56,7 +56,7 @@ with col_2:
             upload_files[st.session_state['a_counter']].name
         )
 
-    img_name_choosed = st.text_input("You can rename it:", img_name_default)
+    img_name_choosed = st.text_input("Rename:", img_name_default)
 
     extention_img = st.selectbox(
         "Convert in:",
@@ -83,15 +83,33 @@ user_data_input = {
     "img_converted_quality": quality_img,
 }
 
+
 with col_1:
     st.write("### Preview")
 
+    if len(upload_files) == 0:
+        st.image("img_default.png")
+
 with col_3:
     st.write("### Compress")
+    if len(upload_files) == 0:
+        data_img_wainting = (
+            f"**name**: none  \n"
+            f"**format**: none  \n"
+            f"**width**: none px  \n"
+            f"**height**: none px  \n"
+            f"**weight**: none octets"
+        )
+        st.write(data_img_wainting)
 
+
+with col_3:
     if upload_files:
         if st.session_state['a_counter'] < len(upload_files) - 1:
-            if st.button("Next"):
+            if st.button(
+                "Next",
+                use_container_width=True,
+            ):
                 st.session_state['a_counter'] += 1
         with col_1:
             img_preview = open_img(upload_files[st.session_state['a_counter']])
@@ -110,11 +128,12 @@ with col_3:
                     f"**height**: {img_preview.size[1]} px  \n"
                     f"**weight**: {img_preview_weight_quality.getbuffer().nbytes/100} octets"
                 )
-                st.write(data_img)
+
                 compress_btn = st.button(
                     "Compress",
                     use_container_width=True,
                 )
+
                 if compress_btn:
                     img_preview = upload_files[st.session_state['a_counter']]
                     img_preview = open_img(img_preview)
@@ -132,6 +151,7 @@ with col_3:
                         mime=f"image/{user_data_input['img_converted_extension'].lower()}",
                         use_container_width=True,
                     )
+                st.write(data_img)
 
         with col_1:
             number_image = f"image {st.session_state['a_counter'] + 1}/{len(upload_files)}"
