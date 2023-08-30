@@ -56,8 +56,8 @@ with col_1:
     st.write("### Preview")
 
     if len(upload_files) == 0:
-        with Image.open("img_default.png") as img_default:
-            st.image(img_default)
+        img_default = Image.open("img_default.png")
+        st.image(img_default)
 
 with col_2:
     st.write("### Parameters")
