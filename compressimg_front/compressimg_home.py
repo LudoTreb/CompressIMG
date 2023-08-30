@@ -55,9 +55,9 @@ col_1, col_2, col_3 = st.columns(3, gap="medium")
 with col_1:
     st.write("### Preview")
 
-    if len(upload_files) == 0:
-        img_default = Image.open("img_default.png")
-        st.image(img_default)
+    # if len(upload_files) == 0:
+    #     img_default = Image.open("img_default.png")
+    #     st.image(img_default)
 
 with col_2:
     st.write("### Parameters")
