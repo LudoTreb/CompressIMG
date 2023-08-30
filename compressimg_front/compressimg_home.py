@@ -48,40 +48,7 @@ st.write("")
 col_1, col_2, col_3 = st.columns(3, gap="medium")
 
 
-with col_2:
-    st.write("### Parameters")
-    img_name_default = "name_file"
-    if upload_files:
-        img_name_default = get_filename_without_extension(
-            upload_files[st.session_state['a_counter']].name
-        )
-
-    img_name_choosed = st.text_input("Rename:", img_name_default)
-
-    extention_img = st.selectbox(
-        "Convert in:",
-        ("PNG", "JPEG", "WEBP"),
-    )
-
-    resize_factor = st.slider(
-        'Resize',
-        1,
-        100,
-        50,
-        key="slider",
-    )
-    quality_img = st.select_slider(
-        "Quality",
-        options=["Poor", "Low", "Medium", "Good", "High"],
-        value="Medium",
-    )
 # dictionary to store data input by user
-user_data_input = {
-    "img_converted_name": img_name_choosed,
-    "img_converted_extension": extention_img,
-    "img_converted_scale": resize_factor,
-    "img_converted_quality": quality_img,
-}
 
 
 with col_1:
@@ -89,6 +56,30 @@ with col_1:
 
     if len(upload_files) == 0:
         st.image("img_default.png")
+
+with col_2:
+    st.write("### Parameters")
+    if len(upload_files) == 0:
+        img_name_default = "name_file"
+        img_name_choosed = st.text_input("Rename:", img_name_default)
+
+        extention_img = st.selectbox(
+            "Convert in:",
+            ("PNG", "JPEG", "WEBP"),
+        )
+
+        resize_factor = st.slider(
+            'Resize',
+            1,
+            100,
+            50,
+            key="slider",
+        )
+        quality_img = st.select_slider(
+            "Quality",
+            options=["Poor", "Low", "Medium", "Good", "High"],
+            value="Medium",
+        )
 
 with col_3:
     st.write("### Compress")
@@ -103,55 +94,86 @@ with col_3:
         st.write(data_img_wainting)
 
 
-with col_3:
-    if upload_files:
+if upload_files:
+    with col_3:
         if st.session_state['a_counter'] < len(upload_files) - 1:
             if st.button(
                 "Next",
                 use_container_width=True,
             ):
                 st.session_state['a_counter'] += 1
-        with col_1:
-            img_preview = open_img(upload_files[st.session_state['a_counter']])
-            img_preview = scale_img(img_preview, user_data_input)
+    with col_2:
+        img_name_default = get_filename_without_extension(
+            upload_files[st.session_state['a_counter']].name
+        )
 
-            img_preview_weight_quality = compress_img(
-                img_preview, user_data_input
+        img_name_choosed = st.text_input("Rename:", img_name_default)
+
+        extention_img = st.selectbox(
+            "Convert in:",
+            ("PNG", "JPEG", "WEBP"),
+        )
+
+        resize_factor = st.slider(
+            'Resize',
+            1,
+            100,
+            50,
+            key="slider",
+        )
+        quality_img = st.select_slider(
+            "Quality",
+            options=["Poor", "Low", "Medium", "Good", "High"],
+            value="Medium",
+        )
+
+    user_data_input = {
+        "img_converted_name": img_name_choosed,
+        "img_converted_extension": extention_img,
+        "img_converted_scale": resize_factor,
+        "img_converted_quality": quality_img,
+    }
+
+    with col_1:
+        img_preview = open_img(upload_files[st.session_state['a_counter']])
+        img_preview = scale_img(img_preview, user_data_input)
+
+        img_preview_weight_quality = compress_img(img_preview, user_data_input)
+        st.image(img_preview_weight_quality)
+
+        with col_3:
+            data_img = (
+                f"**name**: {img_name_choosed}  \n"
+                f"**format**: {extention_img}  \n"
+                f"**width**: {img_preview.size[0]} px  \n"
+                f"**height**: {img_preview.size[1]} px  \n"
+                f"**weight**: {img_preview_weight_quality.getbuffer().nbytes/100} octets"
             )
-            st.image(img_preview_weight_quality)
 
-            with col_3:
-                data_img = (
-                    f"**name**: {img_name_choosed}  \n"
-                    f"**format**: {extention_img}  \n"
-                    f"**width**: {img_preview.size[0]} px  \n"
-                    f"**height**: {img_preview.size[1]} px  \n"
-                    f"**weight**: {img_preview_weight_quality.getbuffer().nbytes/100} octets"
+            compress_btn = st.button(
+                "Compress",
+                use_container_width=True,
+            )
+
+            if compress_btn:
+                img_preview = upload_files[st.session_state['a_counter']]
+                img_preview = open_img(img_preview)
+                img_preview = scale_img(img_preview, user_data_input)
+
+                img_compressed = manipulate_img(
+                    upload_files[st.session_state['a_counter']],
+                    user_data_input,
                 )
 
-                compress_btn = st.button(
-                    "Compress",
+                st.download_button(
+                    "Download your image",
+                    data=img_compressed,
+                    file_name=formated_name_img(user_data_input),
+                    mime=f"image/{user_data_input['img_converted_extension'].lower()}",
                     use_container_width=True,
                 )
 
-                if compress_btn:
-                    img_preview = upload_files[st.session_state['a_counter']]
-                    img_preview = open_img(img_preview)
-                    img_preview = scale_img(img_preview, user_data_input)
-
-                    img_compressed = manipulate_img(
-                        upload_files[st.session_state['a_counter']],
-                        user_data_input,
-                    )
-
-                    st.download_button(
-                        "Download your image",
-                        data=img_compressed,
-                        file_name=formated_name_img(user_data_input),
-                        mime=f"image/{user_data_input['img_converted_extension'].lower()}",
-                        use_container_width=True,
-                    )
-                st.write(data_img)
+            st.write(data_img)
 
         with col_1:
             number_image = f"image {st.session_state['a_counter'] + 1}/{len(upload_files)}"
