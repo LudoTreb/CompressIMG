@@ -1,4 +1,5 @@
 import streamlit as st
+from PIL import Image
 from tools.tools_img import (
     manipulate_img,
     formated_name_img,
@@ -55,7 +56,8 @@ with col_1:
     st.write("### Preview")
 
     if len(upload_files) == 0:
-        st.image("img_default.png")
+        with Image.open("img_default.png") as img_default:
+            st.image(img_default)
 
 with col_2:
     st.write("### Parameters")
